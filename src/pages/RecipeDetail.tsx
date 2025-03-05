@@ -6,8 +6,8 @@ import Header from '@/components/Header';
 import { useSpoonacular } from '@/hooks/useSpoonacular';
 import { useFavorites, Recipe } from '@/hooks/useFavorites';
 import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
 import { 
-  Badge,
   Card, 
   CardContent 
 } from '@/components/ui/card';

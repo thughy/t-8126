@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { useApiKey } from './useApiKey';
 import { SPOONACULAR_API_BASE_URL } from '@/lib/constants';
@@ -39,17 +38,22 @@ export function useSpoonacular() {
     setError(null);
 
     try {
-      const queryParams = new URLSearchParams({
-        apiKey,
-        ...params,
-        addRecipeInformation: 'true',
-        fillIngredients: 'false',
+      const queryParams = new URLSearchParams();
+      
+      queryParams.append('apiKey', apiKey);
+      
+      queryParams.append('addRecipeInformation', 'true');
+      queryParams.append('fillIngredients', 'false');
+      
+      Object.entries(params).forEach(([key, value]) => {
+        if (value !== undefined && value !== null) {
+          queryParams.append(key, String(value));
+        }
       });
 
       const response = await fetch(`${SPOONACULAR_API_BASE_URL}/recipes/complexSearch?${queryParams}`);
       
       if (!response.ok) {
-        // Check for specific error status
         if (response.status === 401 || response.status === 403) {
           throw new Error('Invalid API key. Please check your API key in settings.');
         } else if (response.status === 402) {
